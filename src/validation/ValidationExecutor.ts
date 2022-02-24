@@ -119,9 +119,18 @@ export class ValidationExecutor {
     const notAllowedProperties: string[] = [];
 
     Object.keys(object).forEach(propertyName => {
+      const metadatas = groupedMetadatas[propertyName];
       // does this property have no metadata?
-      if (!groupedMetadatas[propertyName] || groupedMetadatas[propertyName].length === 0)
+      if (!metadatas || metadatas.length === 0) {
         notAllowedProperties.push(propertyName);
+        return;
+      }
+      // does this property has condition to allow?
+      const conditionalWhitelistMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.WHITELIST && metadata.constraints.length > 0);
+      const canAllow = this.conditionalWhitelist(object, conditionalWhitelistMetadatas);
+      if (!canAllow) {
+        notAllowedProperties.push(propertyName);
+      }
     });
 
     if (notAllowedProperties.length > 0) {
@@ -235,6 +244,12 @@ export class ValidationExecutor {
     validationError.constraints = {};
 
     return validationError;
+  }
+
+  private conditionalWhitelist(object: object, metadatas: ValidationMetadata[]): ValidationMetadata[] {
+    return metadatas
+      .map(metadata => metadata.constraints[0](object))
+      .reduce((resultA, resultB) => resultA && resultB, true);
   }
 
   private conditionalValidations(object: object, value: any, metadatas: ValidationMetadata[]): ValidationMetadata[] {
