@@ -469,6 +469,37 @@ validate(post).then(errors => {
 });
 ```
 
+If you would want a property conditionally whitelisted you can use the @AllowIf decorator:
+
+```typescript
+import {validate, Allow, AllowIf, Min} from "class-validator";
+
+export class Post {
+
+    @Allow()
+    title: string;
+
+    @Min(0)
+    views: number;
+
+    @AllowIf(post => post.views > 10)
+    whitelistedProperty: number;
+}
+
+let post = new Post();
+post.title = 'Hello world!';
+post.views = 420;
+
+post.whitelistedProperty = 69;
+(post as any).nonWhitelistedProperty = "something";
+
+validate(post).then(errors => {
+  // post.whitelistedProperty is defined
+  // (post as any).nonWhitelistedProperty is not defined
+  ...
+});
+```
+
 If you would rather to have an error thrown when any non-whitelisted properties are present, pass another flag to
 `validate` method:
 
