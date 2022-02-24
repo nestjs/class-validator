@@ -1,4 +1,4 @@
-import { Allow, IsDefined, IsOptional, Min } from '../../src/decorator/decorators';
+import { Allow, AllowIf, IsDefined, IsOptional, Min } from '../../src/decorator/decorators';
 import { Validator } from '../../src/validation/Validator';
 import { ValidationTypes } from '../../src';
 
@@ -30,6 +30,42 @@ describe('whitelist validation', () => {
   it('should be able to whitelist with @Allow', () => {
     class MyClass {
       @Allow()
+      views: number;
+    }
+
+    const model: any = new MyClass();
+
+    model.views = 420;
+    model.unallowedProperty = 'non-whitelisted';
+
+    return validator.validate(model, { whitelist: true }).then(errors => {
+      expect(errors.length).toEqual(0);
+      expect(model.unallowedProperty).toBeUndefined();
+      expect(model.views).toEqual(420);
+    });
+  });
+
+  it("should'n be able to whitelist with @AllowIf when condition return false", () => {
+    class MyClass {
+      @AllowIf(o => false)
+      views: number;
+    }
+
+    const model: any = new MyClass();
+
+    model.views = 420;
+    model.unallowedProperty = 'non-whitelisted';
+
+    return validator.validate(model, { whitelist: true }).then(errors => {
+      expect(errors.length).toEqual(0);
+      expect(model.unallowedProperty).toBeUndefined();
+      expect(model.views).toBeUndefined();
+    });
+  });
+
+  it('should be able to whitelist with @AllowIf when condition return true', () => {
+    class MyClass {
+      @AllowIf(o => true)
       views: number;
     }
 
