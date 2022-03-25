@@ -54,7 +54,7 @@
     "jest": "27.5.1",
     "lerna-changelog": "2.2.0",
     "lint-staged": "12.3.7",
-    "prettier": "2.6.0",
+    "prettier": "2.6.1",
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rollup": "2.70.1",
