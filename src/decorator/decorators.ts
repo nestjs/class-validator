@@ -7,6 +7,7 @@
 // -------------------------------------------------------------------------
 
 export * from './common/Allow';
+export * from './common/AllowIf';
 export * from './common/IsDefined';
 export * from './common/IsOptional';
 export * from './common/Validate';
