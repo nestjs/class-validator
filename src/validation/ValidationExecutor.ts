@@ -132,7 +132,7 @@ export class ValidationExecutor {
       }
       // does this property has condition to allow?
       const conditionalWhitelistMetadatas = metadatas.filter(metadata => metadata.type === ValidationTypes.WHITELIST && metadata.constraints.length > 0);
-      const canAllow = this.conditionalWhitelist(object, conditionalWhitelistMetadatas);
+      const canAllow = this.conditionalWhitelist(object, propertyName, conditionalWhitelistMetadatas);
       if (!canAllow) {
         notAllowedProperties.push(propertyName);
       }
@@ -251,8 +251,10 @@ export class ValidationExecutor {
     return validationError;
   }
 
-  private conditionalWhitelist(object: object, metadatas: ValidationMetadata[]): ValidationMetadata[] {
-    return metadatas
+  private conditionalWhitelist(object: any, propertyName: string, metadatas: ValidationMetadata[]): ValidationMetadata[] {
+    return !Object.keys(object).includes(propertyName) ||
+      object[propertyName] === undefined ||
+      metadatas
       .map(metadata => metadata.constraints[0](object))
       .reduce((resultA, resultB) => resultA && resultB, true);
   }

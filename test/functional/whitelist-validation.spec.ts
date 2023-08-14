@@ -81,6 +81,84 @@ describe('whitelist validation', () => {
     });
   });
 
+  it('should not throw an error when forbidNonWhitelisted flag is set and @AllowIf is true', () => {
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the whitelist logic.
+       */
+      @IsOptional()
+      propertyToRegisterClass: string;
+
+      @AllowIf(o => true)
+      conditionalDecorated: string;
+
+      constructor(conditionalDecorated: string) {
+        this.conditionalDecorated = conditionalDecorated;
+      }
+    }
+
+    const instance = new MyPayload('conditional-whitelisted');
+
+    return validator.validate(instance, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
+      expect(errors.length).toEqual(0);
+      expect(instance.conditionalDecorated).toEqual('conditional-whitelisted')
+    });
+  });
+
+  it('should throw an error when forbidNonWhitelisted flag is set and @AllowIf is false', () => {
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the whitelist logic.
+       */
+      @IsOptional()
+      propertyToRegisterClass: string;
+
+      @AllowIf(o => false)
+      nonDecorated: string;
+
+      constructor(nonDecorated: string) {
+        this.nonDecorated = nonDecorated;
+      }
+    }
+
+    const instance = new MyPayload('non-whitelisted');
+
+    return validator.validate(instance, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
+      expect(errors.length).toEqual(1);
+      expect(errors[0].target).toEqual(instance);
+      expect(errors[0].property).toEqual('nonDecorated');
+      expect(errors[0].constraints).toHaveProperty(ValidationTypes.WHITELIST);
+      expect(() => errors[0].toString()).not.toThrow();
+    });
+  });
+
+  it('should not throw an error when forbidNonWhitelisted flag is set and @AllowIf is false and property is not set', () => {
+    class MyPayload {
+      /**
+       * Since forbidUnknownValues defaults to true, we must add a property to
+       * register the class in the metadata storage. Otherwise the unknown value check
+       * would take priority (first check) and exit without running the whitelist logic.
+       */
+      @IsOptional()
+      propertyToRegisterClass: string;
+
+      @AllowIf(o => false)
+      conditionalDecorated: string;
+
+    }
+
+    const instance = new MyPayload();
+
+    return validator.validate(instance, { whitelist: true, forbidNonWhitelisted: true }).then(errors => {
+      expect(errors.length).toEqual(0);
+      expect(instance.conditionalDecorated).toBeUndefined();
+    });
+  });
+
   it('should throw an error when forbidNonWhitelisted flag is set', () => {
     class MyPayload {
       /**
