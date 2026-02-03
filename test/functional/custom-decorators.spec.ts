@@ -54,7 +54,7 @@ describe('decorator with inline validation', () => {
     lastName: string;
   }
 
-  it('if firstName is not empty and lastLame is empty then it should succeed', () => {
+  it('if firstName is not empty and lastName is empty then it should succeed', () => {
     expect.assertions(1);
     const model = new MyClass();
     model.firstName = 'hell no world';
@@ -63,7 +63,7 @@ describe('decorator with inline validation', () => {
     });
   });
 
-  it('if firstName is empty and lastLame is not empty then it should fail', () => {
+  it('if firstName is empty and lastName is not empty then it should fail', () => {
     expect.assertions(2);
     const model = new MyClass();
     model.firstName = '';
@@ -74,7 +74,7 @@ describe('decorator with inline validation', () => {
     });
   });
 
-  it('if firstName is shorter then lastLame then it should fail', () => {
+  it('if firstName is shorter than lastName then it should fail', () => {
     expect.assertions(2);
     const model = new MyClass();
     model.firstName = 'Li';
@@ -136,7 +136,7 @@ describe('decorator with default message', () => {
     lastName: string;
   }
 
-  it('if firstName is not empty and lastLame is empty then it should succeed', () => {
+  it('if firstName is not empty and lastName is empty then it should succeed', () => {
     expect.assertions(1);
     const model = new SecondClass();
     model.firstName = 'hell no world';
@@ -145,7 +145,7 @@ describe('decorator with default message', () => {
     });
   });
 
-  it('if firstName is empty and lastLame is not empty then it should fail', () => {
+  it('if firstName is empty and lastName is not empty then it should fail', () => {
     expect.assertions(2);
     const model = new SecondClass();
     model.firstName = '';
@@ -156,7 +156,7 @@ describe('decorator with default message', () => {
     });
   });
 
-  it('if firstName is shorter then lastLame then it should fail', () => {
+  it('if firstName is shorter than lastName then it should fail', () => {
     expect.assertions(2);
     const model = new SecondClass();
     model.firstName = 'Li';
@@ -201,7 +201,7 @@ describe('decorator with separate validation constraint class', () => {
     lastName: string;
   }
 
-  it('if firstName is not empty and lastLame is empty then it should succeed', () => {
+  it('if firstName is not empty and lastName is empty then it should succeed', () => {
     expect.assertions(1);
     const model = new MyClass();
     model.firstName = 'hell no world';
@@ -210,7 +210,7 @@ describe('decorator with separate validation constraint class', () => {
     });
   });
 
-  it('if firstName is empty and lastLame is not empty then it should fail', () => {
+  it('if firstName is empty and lastName is not empty then it should fail', () => {
     expect.assertions(2);
     const model = new MyClass();
     model.firstName = '';
@@ -223,7 +223,7 @@ describe('decorator with separate validation constraint class', () => {
     });
   });
 
-  it('if firstName is shorter then lastLame then it should fail', () => {
+  it('if firstName is shorter than lastName then it should fail', () => {
     expect.assertions(2);
     const model = new MyClass();
     model.firstName = 'Li';
