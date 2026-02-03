@@ -37,7 +37,6 @@
     "test:ci": "jest --runInBand --no-cache --coverage --verbose"
   },
   "dependencies": {
-    "@nestjs/class-validator": "^0.13.4",
     "@types/validator": "^13.7.10",
     "libphonenumber-js": "^1.10.14",
     "validator": "^13.7.0"
