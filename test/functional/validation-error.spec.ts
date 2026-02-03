@@ -4,7 +4,7 @@ import { Validator } from '../../src/validation/Validator';
 const validator = new Validator();
 
 /**
- * TODO: needs to split these test into
+ * TODO: needs to split these tests into
  *   - testing basic toString
  *   - testing nested objects
  *   - testing arrays
