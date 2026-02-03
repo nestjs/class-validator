@@ -39,7 +39,7 @@ describe('decorator with inline validation', () => {
   class MyClass {
     @IsLongerThan('lastName', {
       context: { foo: 'bar' },
-      message: '$property must be longer then $constraint1. Given value: $value',
+      message: '$property must be longer than $constraint1. Given value: $value',
     })
     firstName: string;
     lastName: string;
@@ -48,7 +48,7 @@ describe('decorator with inline validation', () => {
   class MyClassWithAsyncValidator {
     @IsLongerThan('lastName', {
       context: { foo: 'bar', promise: true },
-      message: '$property must be longer then $constraint1. Given value: $value',
+      message: '$property must be longer than $constraint1. Given value: $value',
     })
     firstName: string;
     lastName: string;
@@ -70,7 +70,7 @@ describe('decorator with inline validation', () => {
     model.lastName = 'Kim';
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
-      expect(errors[0].constraints).toEqual({ isLongerThan: 'firstName must be longer then lastName. Given value: ' });
+      expect(errors[0].constraints).toEqual({ isLongerThan: 'firstName must be longer than lastName. Given value: ' });
     });
   });
 
@@ -82,7 +82,7 @@ describe('decorator with inline validation', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({
-        isLongerThan: 'firstName must be longer then lastName. Given value: Li',
+        isLongerThan: 'firstName must be longer than lastName. Given value: Li',
       });
     });
   });
@@ -123,7 +123,7 @@ describe('decorator with default message', () => {
             return typeof value === 'string' && typeof relatedValue === 'string' && value.length > relatedValue.length;
           },
           defaultMessage(args: ValidationArguments): string {
-            return args.property + ' must be longer then ' + args.constraints[0];
+            return args.property + ' must be longer than ' + args.constraints[0];
           },
         },
       });
@@ -152,7 +152,7 @@ describe('decorator with default message', () => {
     model.lastName = 'Kim';
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
-      expect(errors[0].constraints).toEqual({ isLonger: 'firstName must be longer then lastName' });
+      expect(errors[0].constraints).toEqual({ isLonger: 'firstName must be longer than lastName' });
     });
   });
 
@@ -163,7 +163,7 @@ describe('decorator with default message', () => {
     model.lastName = 'Kim';
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
-      expect(errors[0].constraints).toEqual({ isLonger: 'firstName must be longer then lastName' });
+      expect(errors[0].constraints).toEqual({ isLonger: 'firstName must be longer than lastName' });
     });
   });
 });
@@ -196,7 +196,7 @@ describe('decorator with separate validation constraint class', () => {
     firstName: string;
 
     @IsShorterThan('firstName', {
-      message: '$property must be shorter then $constraint1. Given value: $value',
+      message: '$property must be shorter than $constraint1. Given value: $value',
     })
     lastName: string;
   }
@@ -218,7 +218,7 @@ describe('decorator with separate validation constraint class', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({
-        isShortenThan: 'lastName must be shorter then firstName. Given value: Kim',
+        isShortenThan: 'lastName must be shorter than firstName. Given value: Kim',
       });
     });
   });
@@ -231,7 +231,7 @@ describe('decorator with separate validation constraint class', () => {
     return validator.validate(model).then(errors => {
       expect(errors.length).toEqual(1);
       expect(errors[0].constraints).toEqual({
-        isShortenThan: 'lastName must be shorter then firstName. Given value: Kim',
+        isShortenThan: 'lastName must be shorter than firstName. Given value: Kim',
       });
     });
   });

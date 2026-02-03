@@ -1136,7 +1136,7 @@ describe('context', () => {
 
       @IsLongerThan('lastName', {
         context: { baz: 'qux' },
-        message: '$property must be longer then $constraint1. Given value: $value',
+        message: '$property must be longer than $constraint1. Given value: $value',
       })
       firstName: string;
 
