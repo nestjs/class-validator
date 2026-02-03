@@ -24,7 +24,7 @@ describe('validator options', () => {
       });
   });
 
-  it('should returns error on unknown objects if forbidUnknownValues is true', function () {
+  it('should return error on unknown objects if forbidUnknownValues is true', function () {
     const anonymousObject = { badKey: 'This should not pass.' };
 
     return validator.validate(anonymousObject, { forbidUnknownValues: true }).then(errors => {
