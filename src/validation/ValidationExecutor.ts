@@ -38,14 +38,14 @@ export class ValidationExecutor {
 
   execute(object: object, targetSchema: string, validationErrors: ValidationError[]): void {
     /**
-     * If there is no metadata registered it means possibly the dependencies are not flatterned and
+     * If there is no metadata registered it means possibly the dependencies are not flattened and
      * more than one instance is used.
      *
      * TODO: This needs proper handling, forcing to use the same container or some other proper solution.
      */
     if (!this.metadataStorage.hasValidationMetaData && this.validatorOptions?.enableDebugMessages === true) {
       console.warn(
-        `No validation metadata found. No validation will be  performed. There are multiple possible reasons:\n` +
+        `No validation metadata found. No validation will be performed. There are multiple possible reasons:\n` +
           `  - There may be multiple class-validator versions installed. You will need to flatten your dependencies to fix the issue.\n` +
           `  - This validation runs before any file with validation decorator was parsed by NodeJS.`
       );
@@ -145,6 +145,12 @@ export class ValidationExecutor {
     }
   }
 
+  /**
+   * Removes validation errors that have no constraints and no children.
+   * Recursively processes nested validation errors.
+   * @param errors Array of validation errors to filter
+   * @returns Filtered array of validation errors
+   */
   stripEmptyErrors(errors: ValidationError[]): ValidationError[] {
     return errors.filter(error => {
       if (error.children) {
