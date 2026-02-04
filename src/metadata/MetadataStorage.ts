@@ -5,7 +5,7 @@ import { ValidationSchemaToMetadataTransformer } from '../validation-schema/Vali
 import { getGlobal } from '../utils';
 
 /**
- * Storage all metadatas.
+ * Stores all validation metadatas.
  */
 export class MetadataStorage {
   // -------------------------------------------------------------------------
