@@ -3,8 +3,9 @@
  *
  * Note: `globalThis` is the standardized approach however it has been added to
  * Node.js in version 12. We need to include this snippet until Node 12 EOL.
+ * @returns The global object (globalThis, global, window, or self) or undefined if none is available
  */
-export function getGlobal() {
+export function getGlobal(): typeof globalThis | typeof global | typeof window | typeof self | undefined {
   if (typeof globalThis !== 'undefined') {
     return globalThis;
   }
